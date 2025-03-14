@@ -64,9 +64,7 @@ class UserResource extends Resource
                     ->afterStateUpdated(fn($state, callable $set) => $set('teacher_id', null) && $set('board_id', null)),
                 Select::make('teacher_id')
                     ->label('Professor')
-                    ->options(
-                        fn() => User::where('role', 'teacher')->pluck('name', 'id')
-                    )
+                    ->relationship('teacher', 'name')
                     ->searchable()
                     ->nullable()
                     ->visible(fn($get) => $get('role') === 'student'),
