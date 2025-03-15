@@ -10,6 +10,7 @@ class Grades extends Model
 
     protected $fillable = [
         'student_id',
+        'teacher_id', // Adicione esta linha
         'student_name',
         'nota_1',
         'nota_2',
@@ -23,6 +24,11 @@ class Grades extends Model
     public function student()
     {
         return $this->belongsTo(User::class, 'student_id');
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
     }
 
     protected static function booted()

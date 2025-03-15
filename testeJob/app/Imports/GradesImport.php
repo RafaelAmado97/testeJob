@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Imports;
 
 use App\Models\Grades;
@@ -8,46 +9,49 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
 class GradesImport implements ToModel, WithHeadingRow
 {
+    private $teacherId;
+    private $updatedCount = 0;
+    private $newCount = 0;
+
+    public function __construct($teacherId)
+    {
+        $this->teacherId = $teacherId;
+    }
+
     public function model(array $row)
     {
-        // Encontrar o aluno pelo nome e pelo professor
-        $student = User::where('name', $row['student_name'])
-            ->where('teacher_id', auth()->id())
-            ->first();
+        $student = User::firstOrCreate(
+            ['id' => $row['student_id']],
+            ['name' => $row['student_name']]
+        );
 
-        if (!$student) {
-            return null;
-        }
-
-        // Calcular a nota total e a média
-        $nota_total = $this->calculateTotal($row);
-        $media = $this->calculateAverage($nota_total);
-
-        // Encontrar ou criar a nota
         $grade = Grades::updateOrCreate(
-            ['student_id' => $student->id],
+            ['student_id' => $student->id, 'teacher_id' => $this->teacherId],
             [
-                'student_name' => $row['student_name'],
                 'nota_1' => $row['nota_1'],
                 'nota_2' => $row['nota_2'],
                 'nota_3' => $row['nota_3'],
                 'nota_4' => $row['nota_4'],
                 'nota_prova_final' => $row['nota_prova_final'],
-                'nota_total' => $nota_total,
-                'media' => $media,
             ]
         );
+
+        if ($grade->wasRecentlyCreated) {
+            $this->newCount++;
+        } else {
+            $this->updatedCount++;
+        }
 
         return $grade;
     }
 
-    private function calculateTotal(array $row)
+    public function getUpdatedCount()
     {
-        return $row['nota_1'] + $row['nota_2'] + $row['nota_3'] + $row['nota_4'] + ($row['nota_prova_final'] * 2);
+        return $this->updatedCount;
     }
 
-    private function calculateAverage($nota_total)
+    public function getNewCount()
     {
-        return $nota_total / 6;
+        return $this->newCount;
     }
 }

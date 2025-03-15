@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\DeleteAction;
 
 class GradesResource extends Resource
@@ -54,31 +55,31 @@ class GradesResource extends Resource
                     ->numeric()
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, callable $set) => self::calculateGrades($state, $set)),
+                    ->afterStateUpdated(fn($state, callable $set) => self::calculateGrades($state, $set)),
                 TextInput::make('nota_2')
                     ->label('Nota 2')
                     ->numeric()
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, callable $set) => self::calculateGrades($state, $set)),
+                    ->afterStateUpdated(fn($state, callable $set) => self::calculateGrades($state, $set)),
                 TextInput::make('nota_3')
                     ->label('Nota 3')
                     ->numeric()
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, callable $set) => self::calculateGrades($state, $set)),
+                    ->afterStateUpdated(fn($state, callable $set) => self::calculateGrades($state, $set)),
                 TextInput::make('nota_4')
                     ->label('Nota 4')
                     ->numeric()
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, callable $set) => self::calculateGrades($state, $set)),
+                    ->afterStateUpdated(fn($state, callable $set) => self::calculateGrades($state, $set)),
                 TextInput::make('nota_prova_final')
                     ->label('Nota Prova Final')
                     ->numeric()
                     ->required()
                     ->reactive()
-                    ->afterStateUpdated(fn ($state, callable $set) => self::calculateGrades($state, $set)),
+                    ->afterStateUpdated(fn($state, callable $set) => self::calculateGrades($state, $set)),
                 TextInput::make('nota_total')
                     ->label('Nota Total')
                     ->numeric()
@@ -87,6 +88,13 @@ class GradesResource extends Resource
                     ->label('Média')
                     ->numeric()
                     ->disabled(),
+                FileUpload::make('spreadsheet')
+                    ->label('Planilha de Notas')
+                    ->disk('public')
+                    ->directory('spreadsheets')
+                    ->acceptedFileTypes(['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
+                    ->maxSize(1024)
+                    ->required(),
             ]);
     }
 
@@ -133,7 +141,7 @@ class GradesResource extends Resource
             'index' => Pages\ListGrades::route('/'),
             'create' => Pages\CreateGrades::route('/create'),
             'edit' => Pages\EditGrades::route('/{record}/edit'),
-            'upload' => Pages\UploadGrades::route('/upload'),
+            'upload' => Pages\UploadGrades::route('/upload'), // <- Adicione essa linha
         ];
     }
 }
