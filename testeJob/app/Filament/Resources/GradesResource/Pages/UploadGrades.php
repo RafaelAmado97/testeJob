@@ -4,10 +4,11 @@ namespace App\Filament\Resources\GradesResource\Pages;
 use App\Filament\Resources\GradesResource;
 use Filament\Resources\Pages\Page;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Actions;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\GradesImport;
-use Filament\Actions\ButtonAction;
+use Filament\Pages\Actions\ButtonAction;
 
 class UploadGrades extends Page
 {
@@ -37,7 +38,7 @@ class UploadGrades extends Page
     protected function getActions(): array
     {
         return [
-            Actions\ButtonAction::make('upload')
+            ButtonAction::make('upload')
                 ->label('Upload Spreadsheet')
                 ->action('processSpreadsheet')
                 ->requiresConfirmation(),

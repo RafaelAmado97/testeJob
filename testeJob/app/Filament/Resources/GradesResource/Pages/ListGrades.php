@@ -14,9 +14,10 @@ class ListGrades extends ListRecords
     {
         return [
             Actions\CreateAction::make()
+                ->label('Novas Notas')
                 ->visible(fn() => auth()->user()->role === 'teacher' || auth()->user()->role === 'admin'),
             Actions\Action::make('downloadTemplate')
-                ->label('Download Template')
+                ->label('Download de planilha modelo')
                 ->action(fn() => Storage::disk('public')->download('templates/grade_template.xlsx'))
                 ->visible(fn() => auth()->user()->role === 'teacher' || auth()->user()->role === 'admin'),
         ];

@@ -92,11 +92,11 @@ class GradesResource extends Resource
 
     protected static function calculateGrades($state, callable $set)
     {
-        $nota_1 = data_get($state, 'nota_1', 0);
-        $nota_2 = data_get($state, 'nota_2', 0);
-        $nota_3 = data_get($state, 'nota_3', 0);
-        $nota_4 = data_get($state, 'nota_4', 0);
-        $nota_prova_final = data_get($state, 'nota_prova_final', 0);
+        $nota_1 = $state['nota_1'] ?? 0;
+        $nota_2 = $state['nota_2'] ?? 0;
+        $nota_3 = $state['nota_3'] ?? 0;
+        $nota_4 = $state['nota_4'] ?? 0;
+        $nota_prova_final = $state['nota_prova_final'] ?? 0;
 
         $nota_total = $nota_1 + $nota_2 + $nota_3 + $nota_4 + ($nota_prova_final * 2);
         $media = $nota_total / 6;
