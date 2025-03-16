@@ -48,36 +48,35 @@ class GradesResource extends Resource
                 Select::make('student_id')
                     ->label('Student Name')
                     ->relationship('student', 'name')
-                    ->options(User::where('teacher_id', auth()->id())->pluck('name', 'id'))
-                    ->required(),
+                    ->options(User::where('teacher_id', auth()->id())->pluck('name', 'id')),
                 TextInput::make('nota_1')
                     ->label('Nota 1')
                     ->numeric()
-                    ->required()
+                    ->nullable()
                     ->reactive()
                     ->afterStateUpdated(fn($state, callable $set) => self::calculateGrades($state, $set)),
                 TextInput::make('nota_2')
                     ->label('Nota 2')
                     ->numeric()
-                    ->required()
+                    ->nullable()
                     ->reactive()
                     ->afterStateUpdated(fn($state, callable $set) => self::calculateGrades($state, $set)),
                 TextInput::make('nota_3')
                     ->label('Nota 3')
                     ->numeric()
-                    ->required()
+                    ->nullable()
                     ->reactive()
                     ->afterStateUpdated(fn($state, callable $set) => self::calculateGrades($state, $set)),
                 TextInput::make('nota_4')
                     ->label('Nota 4')
                     ->numeric()
-                    ->required()
+                    ->nullable()
                     ->reactive()
                     ->afterStateUpdated(fn($state, callable $set) => self::calculateGrades($state, $set)),
                 TextInput::make('nota_prova_final')
                     ->label('Nota Prova Final')
                     ->numeric()
-                    ->required()
+                    ->nullable()
                     ->reactive()
                     ->afterStateUpdated(fn($state, callable $set) => self::calculateGrades($state, $set)),
                 TextInput::make('nota_total')
@@ -93,8 +92,7 @@ class GradesResource extends Resource
                     ->disk('public')
                     ->directory('spreadsheets')
                     ->acceptedFileTypes(['application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'])
-                    ->maxSize(1024)
-                    ->required(),
+                    ->maxSize(1024),
             ]);
     }
 

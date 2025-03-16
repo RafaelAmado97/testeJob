@@ -37,7 +37,7 @@ class UploadGrades extends Page
         ]);
 
         $teacherId = auth()->user()->id;
-        $import = new GradesImport();
+        $import = new GradesImport($teacherId);
         Excel::import($import, $this->spreadsheet->getRealPath());
 
         $updatedCount = $import->getUpdatedCount();
