@@ -8,7 +8,7 @@ use App\Filament\Resources\TeacherDashboard;
 use App\Filament\Resources\Dashboard;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/admin');
 });
 
 Route::get('/register', [RegistrationController::class, 'showRegistrationForm'])->name('register');
