@@ -100,4 +100,19 @@ return [
         ],
     ],
 
+    'navigation' => [
+        [
+            'label' => 'Grades',
+            'icon' => 'heroicon-o-document-text',
+            'route' => 'filament.resources.grades.index',
+            'can' => 'viewAny',
+        ],
+        [
+            'label' => 'Upload Grades',
+            'icon' => 'heroicon-o-upload',
+            'route' => 'grades.upload',
+            'can' => 'upload',
+        ],
+    ],
+
 ];
